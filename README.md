@@ -1,3 +1,10 @@
+# Projeto de Filmes do TMDB
+Projeto de uma API feita em Laravel 8.
+
+![Screenshot from 2022-07-11 18-18-12](https://user-images.githubusercontent.com/44420212/178360067-f6c10475-cf6d-4736-88f6-634c2850bc9e.png)
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
 <p align="center">
