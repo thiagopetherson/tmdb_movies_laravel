@@ -97,7 +97,7 @@ class UserController extends Controller
 
             $biography = '';
             if ($request->biography) 
-                $biography = $request->biography;
+                $biography = nl2br($request->biography);
             
             $user->userProfile()->update([
                 'surname' => $request->surname,
