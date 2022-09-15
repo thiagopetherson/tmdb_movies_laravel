@@ -88,8 +88,11 @@ class AuthController extends Controller
         $user->save();
                
         $user->userProfile()->create([
+            'surname' => $request->surname,            
             'surname' => $request->surname,
             'alias' => $request->name.rand(1, 10000),
+            'gender' => '',
+            'avatar' => '',
         ]);
 
         /*
