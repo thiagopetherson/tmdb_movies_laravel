@@ -129,4 +129,11 @@ class RatingController extends Controller
 
         return response()->json(['average' => $media, 'ratings_count' => $ratings_count], 200);
     }
+
+    public function lastRatings() {
+       
+        // Get the movie ratings and calculate the average 
+        $ratings = Rating::orderBy('id','desc')->take(5)->with('user')->get();
+        return response()->json(['ratings' => $ratings], 200);
+    }
 }
