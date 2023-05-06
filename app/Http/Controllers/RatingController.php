@@ -23,7 +23,7 @@ class RatingController extends Controller
     {
         //
     }
-  
+
     /**
      * Store a newly created resource in storage.
      *
@@ -31,10 +31,10 @@ class RatingController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(RatingStoreRequest $request)
-    {       
+    {
         if (Auth::user()->id != $request->user_id) return false;
         $user = User::find($request->user_id);
-                       
+
         $rating = Rating::updateOrCreate(
             ['user_id' => $user->id, 'movie_id' => $request->movie_id],
             ['rating' => $request->rating, 'review' => $request->review]
@@ -54,7 +54,7 @@ class RatingController extends Controller
     {
         //
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -80,7 +80,7 @@ class RatingController extends Controller
         if ($rating) {
             $rating->delete();
             return response()->json(['rating' => 'sucesso'], 200);
-        }            
+        }
 
         return response()->json(['erro' => 'Essa crítica não existe'], 404);
     }
@@ -89,40 +89,40 @@ class RatingController extends Controller
 
         if (Auth::user()->id != $request->user_id) return false;
         $user = User::find($request->user_id);
-        
+
         $rating = Rating::where('user_id', $user->id)->where('movie_id', $request->movie_id)->get();
-        
-        return response()->json(['rating' => $rating], 200);        
+
+        return response()->json(['rating' => $rating], 200);
     }
 
     public function ratingsByMovie($id) {
-                
+
         $ratings = Rating::where('movie_id', $id)->with('user')->orderBy('created_at', 'desc')->get();
 
         if ($ratings)
-            return response()->json(['ratings' => $ratings], 200);   
-            
+            return response()->json(['ratings' => $ratings], 200);
+
         return response()->json(['erro' => 'Esse filme ainda não possui críticas. Que tal você ser o primeiro(a) ?'], 404);
-                
+
     }
 
     public function ratingsAverageUsers(Request $request) {
 
-        // Get the movie ratings and calculate the average 
+        // Get the movie ratings and calculate the average
         $ratings = Rating::where('movie_id', $request->movie_id)->select('rating')->get()->toArray();
 
         $array_ratings = [];
 
         foreach ($ratings as $rating) {
             array_push($array_ratings, $rating['rating']);
-        }     
+        }
 
         $media = 0;
 
-        if (count($array_ratings) > 0) 
+        if (count($array_ratings) > 0)
             $media = array_sum($array_ratings) / count($array_ratings);
-            
-        
+
+
         // Count the number of ratings
         $ratings_count = Rating::where('movie_id', $request->movie_id)->count();
 
@@ -131,9 +131,9 @@ class RatingController extends Controller
     }
 
     public function lastRatings() {
-       
-        // Get the movie ratings and calculate the average 
-        $ratings = Rating::orderBy('id','desc')->take(5)->with('user')->get();
+
+        // Get the movie ratings and calculate the average
+        $ratings = Rating::orderBy('id','desc')->take(10)->with('user')->get();
         return response()->json(['ratings' => $ratings], 200);
     }
 }
